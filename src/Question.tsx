@@ -73,7 +73,7 @@ export class Question extends React.Component<RouteComponentProps<any>, {}> {
                         }}
                         {...this.props}
                     >
-                        Maybe
+                        Not Sure
                     </LinkButton>
                     <LinkButton
                         target={`/question/${Number(
