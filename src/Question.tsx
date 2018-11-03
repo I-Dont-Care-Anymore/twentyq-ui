@@ -25,7 +25,7 @@ export class Question extends React.Component<RouteComponentProps<any>, {}> {
                         <Code>
                             <Icon icon={'key-backspace'} iconSize={15} />
                         </Code>{' '}
-                        to go back and change your answer.
+                        to go back and change an answer.
                     </Callout>
                 )}
                 <H3>Is your idea related to Commercial Fishing?</H3>
