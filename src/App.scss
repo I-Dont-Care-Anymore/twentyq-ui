@@ -12,12 +12,18 @@ html,
     background-color: #f5f8fa;
     align-items: center;
     justify-content: center;
+    padding-left: 7px;
+    padding-right: 7px;
 }
 
 .App-brand {
     text-align: center;
     font-family: 'Sigmar One', cursive;
     font-weight: 400;
+}
+
+.bp3-callout {
+    margin-bottom: 10px;
 }
 
 @keyframes App-logo-spin {

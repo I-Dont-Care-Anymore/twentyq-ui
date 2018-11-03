@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Button, ButtonGroup, Card, H1 } from '@blueprintjs/core';
 import { RouteComponentProps } from 'react-router-dom';
-import { ForwardButton } from './util/ForwardButton';
+import { LinkButton } from './util/LinkButton';
 
 export class LandingPage extends React.Component<RouteComponentProps<any>, {}> {
     constructor(props: RouteComponentProps<any>) {
@@ -18,16 +18,21 @@ export class LandingPage extends React.Component<RouteComponentProps<any>, {}> {
                     <Button rightIcon="info-sign" onClick={this.pushAbout}>
                         About
                     </Button>
-                    <ForwardButton
+                    <LinkButton
                         target="/explain"
                         buttonProps={{
                             intent: 'primary',
                             rightIcon: 'arrow-right',
                         }}
+                        hotkeyProps={{
+                            combo: 'enter',
+                            global: true,
+                            label: 'Go forwards a page',
+                        }}
                         {...this.props}
                     >
                         Begin
-                    </ForwardButton>
+                    </LinkButton>
                 </ButtonGroup>
             </Card>
         );
