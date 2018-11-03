@@ -20,8 +20,8 @@ export class Question extends React.Component<RouteComponentProps<any>, {}> {
                 {Number(this.props.match.params.number) === 1 && (
                     <Callout icon="lightbulb" intent="primary">
                         Quickly answer questions with your keyboard! Tap{' '}
-                        <Code>y</Code> for yes, <Code>n</Code> for no, and{' '}
-                        <Code>m</Code> for maybe. Tap{' '}
+                        <Code>y</Code> for yes, <Code>u</Code> for unsure, and{' '}
+                        <Code>n</Code> for no. Tap{' '}
                         <Code>
                             <Icon icon={'key-backspace'} iconSize={15} />
                         </Code>{' '}
@@ -60,7 +60,7 @@ export class Question extends React.Component<RouteComponentProps<any>, {}> {
                         }}
                         {...this.props}
                     >
-                        Not Sure
+                        Unsure
                     </LinkButton>
                     <LinkButton
                         target={`/question/${Number(
