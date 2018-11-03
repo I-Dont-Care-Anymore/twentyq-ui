@@ -19,11 +19,9 @@ export class Question extends React.Component<RouteComponentProps<any>, {}> {
                 <H1>Question {this.props.match.params.number}</H1>
                 {Number(this.props.match.params.number) === 1 && (
                     <Callout icon="lightbulb" intent="primary">
-                        Quickly answer questions with your keyboard! Tap{' '}
-                        <Code>y</Code> for yes, <Code>u</Code> for unsure, and{' '}
-                        <Code>n</Code> for no. Tap{' '}
+                        Quickly answer questions with your keyboard! Tap the indicated key for your answer. Tap{' '}
                         <Code>
-                            <Icon icon={'key-backspace'} iconSize={15} />
+                            <Icon icon={'key-backspace'} />
                         </Code>{' '}
                         to go back and change an answer.
                     </Callout>
@@ -35,16 +33,16 @@ export class Question extends React.Component<RouteComponentProps<any>, {}> {
                             this.props.match.params.number,
                         ) + 1}`}
                         buttonProps={{
-                            intent: 'success',
+                            intent: 'danger',
                         }}
                         hotkeyProps={{
-                            combo: 'y',
+                            combo: 'j',
                             global: true,
-                            label: 'Answer yes to this question',
+                            label: 'Answer No to this question',
                         }}
                         {...this.props}
                     >
-                        Yes
+                        No <Code>j</Code>
                     </LinkButton>
                     <LinkButton
                         target={`/question/${Number(
@@ -54,29 +52,29 @@ export class Question extends React.Component<RouteComponentProps<any>, {}> {
                             intent: 'warning',
                         }}
                         hotkeyProps={{
-                            combo: 'm',
+                            combo: 'k',
                             global: true,
-                            label: 'Answer maybe to this question',
+                            label: 'Answer Not Sure to this question',
                         }}
                         {...this.props}
                     >
-                        Unsure
+                        Not Sure <Code>k</Code>
                     </LinkButton>
                     <LinkButton
                         target={`/question/${Number(
                             this.props.match.params.number,
                         ) + 1}`}
                         buttonProps={{
-                            intent: 'danger',
+                            intent: 'success',
                         }}
                         hotkeyProps={{
-                            combo: 'n',
+                            combo: 'l',
                             global: true,
-                            label: 'Answer no to this question',
+                            label: 'Answer Yes to this question',
                         }}
                         {...this.props}
                     >
-                        No
+                        Yes <Code>l</Code>
                     </LinkButton>
                 </ButtonGroup>
             </Card>
