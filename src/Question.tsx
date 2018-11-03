@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ButtonGroup, Callout, Card, Code, H1, Icon } from '@blueprintjs/core';
+import { ButtonGroup, Callout, Card, Code, H1, H3, Icon } from '@blueprintjs/core';
 import { RouteComponentProps } from 'react-router-dom';
 import { BackButton } from './util/BackButton';
 import { LinkButton } from './util/LinkButton';
@@ -28,20 +28,7 @@ export class Question extends React.Component<RouteComponentProps<any>, {}> {
                         to go back and change your answer.
                     </Callout>
                 )}
-                <p className="bp3-text-large">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nulla bibendum sapien tortor, et accumsan libero ornare et.
-                    Nunc malesuada molestie arcu, ut consectetur enim semper
-                    egestas. Suspendisse scelerisque sapien ex, vitae euismod
-                    diam vestibulum eget. Aenean vestibulum porttitor leo et
-                    ornare. Quisque faucibus interdum vestibulum. Nam eget dolor
-                    congue, finibus erat in, luctus tellus. Etiam tincidunt
-                    porttitor justo, ac molestie metus laoreet in. Aliquam eu
-                    varius eros, non sollicitudin leo. Ut accumsan neque
-                    tincidunt nisl porta dictum. Nunc vitae orci sit amet felis
-                    aliquam placerat. Maecenas aliquet accumsan felis nec
-                    aliquam.
-                </p>
+                <H3>Is your idea related to Commercial Fishing?</H3>
                 <ButtonGroup large={true} fill={true}>
                     <LinkButton
                         target={`/question/${Number(
