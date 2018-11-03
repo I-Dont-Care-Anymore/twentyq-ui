@@ -13,7 +13,7 @@ export class LandingPage extends React.Component<RouteComponentProps<any>, {}> {
     public render() {
         return (
             <Card elevation={1}>
-                <H1 className="App-brand">Twenty Q</H1>
+                <H1 className="App-brand">Twenty-Q</H1>
                 <ButtonGroup large={true}>
                     <Button rightIcon="info-sign" onClick={this.pushAbout}>
                         About
