@@ -4,6 +4,7 @@ import { HotkeyButton } from './HotkeyButton';
 
 interface IBackButtonProps {
     hotkey?: boolean;
+    sideEffect?: () => void;
 }
 
 export class BackButton extends React.Component<
@@ -35,6 +36,9 @@ export class BackButton extends React.Component<
     }
 
     private popHistory() {
+        if (this.props.sideEffect) {
+            this.props.sideEffect();
+        }
         this.props.history.goBack();
     }
 }

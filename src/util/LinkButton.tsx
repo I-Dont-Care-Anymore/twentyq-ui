@@ -7,6 +7,7 @@ interface ILinkButtonProps {
     target: string;
     buttonProps: IButtonProps;
     hotkeyProps: IHotkeyProps;
+    sideEffect?: () => void;
 }
 
 export class LinkButton extends React.Component<
@@ -31,6 +32,9 @@ export class LinkButton extends React.Component<
     }
 
     private pushHistory() {
+        if (this.props.sideEffect) {
+            this.props.sideEffect();
+        }
         this.props.history.push(this.props.target);
     }
 }

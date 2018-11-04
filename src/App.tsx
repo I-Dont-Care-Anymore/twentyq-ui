@@ -18,7 +18,7 @@ export class App extends React.Component {
                     <Route path="/" exact={true} component={LandingPage} />
                     <Route path="/about" component={About} />
                     <Route path="/explain" component={Explain} />
-                    <Route path="/question/:number" component={Question} />
+                    <Route path="/question" component={Question} />
                 </div>
             </Router>
         );

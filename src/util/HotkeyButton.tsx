@@ -7,7 +7,6 @@ import {
     IHotkeyProps,
 } from '@blueprintjs/core';
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
 
 interface IHotkeyButtonProps {
     hotkeyProps: IHotkeyProps;
@@ -17,7 +16,7 @@ interface IHotkeyButtonProps {
 
 @HotkeysTarget
 export class HotkeyButton extends React.Component<IHotkeyButtonProps, {}> {
-    constructor(props: IHotkeyButtonProps & RouteComponentProps<any>) {
+    constructor(props: IHotkeyButtonProps) {
         super(props);
     }
 
