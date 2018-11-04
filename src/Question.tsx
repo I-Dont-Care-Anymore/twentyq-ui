@@ -10,8 +10,6 @@ import {
 } from '@blueprintjs/core';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { CookieJar } from 'request';
-import * as rp from 'request-promise-native';
 import { HotkeyButton } from './util/HotkeyButton';
 
 interface IQuestionResponse {
@@ -27,7 +25,6 @@ interface IQuestionState {
     number: number;
     question?: string;
     answered: boolean;
-    jar: CookieJar;
 }
 
 export class Question extends React.Component<
@@ -38,7 +35,6 @@ export class Question extends React.Component<
         super(props);
         this.state = {
             answered: false,
-            jar: rp.jar(),
             number: 0,
         };
         this.getQuestion = this.getQuestion.bind(this);
@@ -135,12 +131,11 @@ export class Question extends React.Component<
     }
 
     private getQuestion() {
-        rp({
-            jar: this.state.jar,
-            json: true,
-            uri: `https://api.twentyq.com/question/${this.state.number + 1}`,
-        })
-            .then((questionResponse: IQuestionResponse) => {
+        fetch(`https://api.twentyq.com/question/${this.state.number + 1}`, {
+            credentials: 'include',
+            mode: 'cors',
+        }).then(res =>
+            res.json().then((questionResponse: IQuestionResponse) => {
                 if (questionResponse.question) {
                     this.setState({
                         answered: false,
@@ -155,8 +150,9 @@ export class Question extends React.Component<
                         )}`,
                     });
                 }
-            })
-            .catch(reason => alert(reason));
+            }),
+        );
+        // .catch(reason => alert(reason));
     }
 
     private putAnswer(answer: string) {
@@ -165,12 +161,13 @@ export class Question extends React.Component<
                 answer,
             };
             this.setState({ answered: true });
-            rp({
-                body: questionAnswer,
-                jar: this.state.jar,
-                json: true,
+            fetch(`https://api.twentyq.com/answer/${this.state.number}`, {
+                body: JSON.stringify(questionAnswer),
+                credentials: 'include',
+                headers: {
+                    'Content-type': 'application/json',
+                },
                 method: 'PUT',
-                uri: `https://api.twentyq.com/answer/${this.state.number}`,
             }).then(() => this.getQuestion());
         };
     }
@@ -180,24 +177,24 @@ export class Question extends React.Component<
             this.setState({
                 question: undefined,
             });
-            rp({
-                jar: this.state.jar,
-                json: true,
+            fetch(`https://api.twentyq.com/answer/${this.state.number - 1}`, {
+                credentials: 'include',
                 method: 'DELETE',
-                uri: `https://api.twentyq.com/answer/${this.state.number - 1}`,
             }).then(() =>
-                rp({
-                    jar: this.state.jar,
-                    json: true,
-                    uri: `https://api.twentyq.com/question/${this.state.number -
-                        1}`,
-                }).then((questionResponse: IQuestionResponse) => {
-                    this.setState({
-                        answered: false,
-                        number: this.state.number - 1,
-                        question: questionResponse.question,
-                    });
-                }),
+                fetch(
+                    `https://api.twentyq.com/question/${this.state.number - 1}`,
+                    {
+                        credentials: 'include',
+                    },
+                )
+                    .then(res => res.json())
+                    .then((questionResponse: IQuestionResponse) => {
+                        this.setState({
+                            answered: false,
+                            number: this.state.number - 1,
+                            question: questionResponse.question,
+                        });
+                    }),
             );
         } else {
             this.props.history.goBack();
