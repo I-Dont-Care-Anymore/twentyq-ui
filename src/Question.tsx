@@ -139,7 +139,7 @@ export class Question extends React.Component<
                     number: this.state.number + 1,
                     question: questionResponse.question,
                 });
-            });
+            }).catch(x => alert(x));
     }
 
     private putAnswer(answer: string) {
