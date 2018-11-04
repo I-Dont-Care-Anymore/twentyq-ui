@@ -11,7 +11,6 @@ import {
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import * as rp from 'request-promise-native';
-import { BackButton } from './util/BackButton';
 import { HotkeyButton } from './util/HotkeyButton';
 
 interface IQuestionResponse {
@@ -38,6 +37,9 @@ export class Question extends React.Component<
             answered: false,
             number: 0,
         };
+        this.getQuestion = this.getQuestion.bind(this);
+        this.putAnswer = this.putAnswer.bind(this);
+        this.deleteAnswerOrGoBack = this.deleteAnswerOrGoBack.bind(this);
     }
 
     public componentDidMount() {
@@ -55,9 +57,18 @@ export class Question extends React.Component<
                 }
             >
                 <p>
-                    <BackButton
-                        {...this.props}
-                        sideEffect={this.deleteAnswerOrGoBack}
+                    <HotkeyButton
+                        onClick={this.deleteAnswerOrGoBack}
+                        buttonProps={{
+                            icon: 'arrow-left',
+                            minimal: true,
+                            small: true,
+                        }}
+                        hotkeyProps={{
+                            combo: 'backspace',
+                            global: true,
+                            label: 'Go back a page',
+                        }}
                     />
                 </p>
                 <H1>Question {this.state.number}</H1>
@@ -120,16 +131,15 @@ export class Question extends React.Component<
     }
 
     private getQuestion() {
-        rp({
-            json: true,
-            uri: `http://api.twentyq.com/question/${this.state.number + 1}`,
-        }).then((questionResponse: IQuestionResponse) => {
-            this.setState({
-                answered: false,
-                number: this.state.number + 1,
-                question: questionResponse.question,
+        fetch(`http://api.twentyq.com/question/${this.state.number + 1}`)
+            .then(res => res.json())
+            .then((questionResponse: IQuestionResponse) => {
+                this.setState({
+                    answered: false,
+                    number: this.state.number + 1,
+                    question: questionResponse.question,
+                });
             });
-        });
     }
 
     private putAnswer(answer: string) {
@@ -143,24 +153,30 @@ export class Question extends React.Component<
                 json: true,
                 method: 'PUT',
                 uri: `http://api.twentyq.com/answer/${this.state.number}`,
-            }).then(() => {
-                this.getQuestion();
             });
+            this.getQuestion();
         };
     }
 
     private deleteAnswerOrGoBack() {
         if (this.state.number !== 1) {
+            this.setState({
+                question: undefined,
+            });
             rp({
                 json: true,
                 method: 'DELETE',
                 uri: `http://api.twentyq.com/answer/${this.state.number - 1}`,
-            }).then(() => {
+            });
+            rp({
+                json: true,
+                uri: `http://api.twentyq.com/question/${this.state.number - 1}`,
+            }).then((questionResponse: IQuestionResponse) => {
                 this.setState({
-                    answered: true,
-                    number: this.state.number - 2,
+                    answered: false,
+                    number: this.state.number - 1,
+                    question: questionResponse.question,
                 });
-                this.getQuestion();
             });
         } else {
             this.props.history.goBack();
