@@ -131,15 +131,16 @@ export class Question extends React.Component<
     }
 
     private getQuestion() {
-        fetch(`http://api.twentyq.com/question/${this.state.number + 1}`)
-            .then(res => res.json())
-            .then((questionResponse: IQuestionResponse) => {
-                this.setState({
-                    answered: false,
-                    number: this.state.number + 1,
-                    question: questionResponse.question,
-                });
-            }).catch(x => alert(x));
+        rp({
+            json: true,
+            uri: `http://api.twentyq.com/question/${this.state.number + 1}`,
+        }).then((questionResponse: IQuestionResponse) => {
+            this.setState({
+                answered: false,
+                number: this.state.number + 1,
+                question: questionResponse.question,
+            });
+        }).catch((reason) => alert(reason));
     }
 
     private putAnswer(answer: string) {
