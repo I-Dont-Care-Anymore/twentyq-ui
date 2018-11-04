@@ -14,7 +14,8 @@ import * as rp from 'request-promise-native';
 import { HotkeyButton } from './util/HotkeyButton';
 
 interface IQuestionResponse {
-    question: string;
+    question?: string;
+    classifications?: [number];
 }
 
 interface IQuestionAnswerBody {
@@ -134,13 +135,24 @@ export class Question extends React.Component<
         rp({
             json: true,
             uri: `https://api.twentyq.com/question/${this.state.number + 1}`,
-        }).then((questionResponse: IQuestionResponse) => {
-            this.setState({
-                answered: false,
-                number: this.state.number + 1,
-                question: questionResponse.question,
-            });
-        }).catch((reason) => alert(reason));
+        })
+            .then((questionResponse: IQuestionResponse) => {
+                if (questionResponse.question) {
+                    this.setState({
+                        answered: false,
+                        number: this.state.number + 1,
+                        question: questionResponse.question,
+                    });
+                } else if (questionResponse.classifications) {
+                    this.props.history.push({
+                        pathname: '/overview',
+                        search: `?classifications=${btoa(
+                            JSON.stringify(questionResponse.classifications),
+                        )}`,
+                    });
+                }
+            })
+            .catch(reason => alert(reason));
     }
 
     private putAnswer(answer: string) {
@@ -171,7 +183,8 @@ export class Question extends React.Component<
             });
             rp({
                 json: true,
-                uri: `https://api.twentyq.com/question/${this.state.number - 1}`,
+                uri: `https://api.twentyq.com/question/${this.state.number -
+                    1}`,
             }).then((questionResponse: IQuestionResponse) => {
                 this.setState({
                     answered: false,
