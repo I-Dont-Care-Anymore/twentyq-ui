@@ -133,7 +133,7 @@ export class Question extends React.Component<
     private getQuestion() {
         rp({
             json: true,
-            uri: `api.twentyq.com/question/${this.state.number + 1}`,
+            uri: `https://api.twentyq.com/question/${this.state.number + 1}`,
         }).then((questionResponse: IQuestionResponse) => {
             this.setState({
                 answered: false,
@@ -153,7 +153,7 @@ export class Question extends React.Component<
                 body: questionAnswer,
                 json: true,
                 method: 'PUT',
-                uri: `http://api.twentyq.com/answer/${this.state.number}`,
+                uri: `https://api.twentyq.com/answer/${this.state.number}`,
             });
             this.getQuestion();
         };
@@ -167,11 +167,11 @@ export class Question extends React.Component<
             rp({
                 json: true,
                 method: 'DELETE',
-                uri: `http://api.twentyq.com/answer/${this.state.number - 1}`,
+                uri: `https://api.twentyq.com/answer/${this.state.number - 1}`,
             });
             rp({
                 json: true,
-                uri: `http://api.twentyq.com/question/${this.state.number - 1}`,
+                uri: `https://api.twentyq.com/question/${this.state.number - 1}`,
             }).then((questionResponse: IQuestionResponse) => {
                 this.setState({
                     answered: false,
