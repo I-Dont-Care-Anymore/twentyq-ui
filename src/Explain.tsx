@@ -30,7 +30,7 @@ export class Explain extends React.Component<RouteComponentProps<any>, {}> {
                     a market analyst.
                 </p>
                 <LinkButton
-                    target="/question/1"
+                    target="/question"
                     buttonProps={{
                         intent: 'primary',
                         large: true,
