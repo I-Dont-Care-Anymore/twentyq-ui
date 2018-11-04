@@ -18,7 +18,7 @@ interface IQuestionResponse {
     question: string;
 }
 
-interface IQuestionAnswer {
+interface IQuestionAnswerBody {
     answer: string;
 }
 
@@ -134,7 +134,7 @@ export class Question extends React.Component<
 
     private putAnswer(answer: string) {
         return () => {
-            const questionAnswer: IQuestionAnswer = {
+            const questionAnswer: IQuestionAnswerBody = {
                 answer,
             };
             this.setState({ answered: true });
