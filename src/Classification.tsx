@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
 interface IClassificationState {
-    classifications: [number];
+    classification: number;
 }
 
 export class Classification extends React.Component<
@@ -12,10 +12,10 @@ export class Classification extends React.Component<
     constructor(props: RouteComponentProps<any>) {
         super(props);
         const searchParams = new URLSearchParams(this.props.location.search);
-        let classifications = searchParams.get('classifications');
-        classifications = classifications === null ? '' : classifications;
+        let classification = searchParams.get('classification');
+        classification = classification === null ? '' : classification;
         this.state = {
-            classifications: JSON.parse(atob(classifications)),
+            classification: JSON.parse(atob(classification)),
         };
     }
 

@@ -10,12 +10,13 @@ import {
 } from '@blueprintjs/core';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { CookieJar } from 'request';
 import * as rp from 'request-promise-native';
 import { HotkeyButton } from './util/HotkeyButton';
 
 interface IQuestionResponse {
     question?: string;
-    classifications?: [number];
+    classification?: number;
 }
 
 interface IQuestionAnswerBody {
@@ -26,6 +27,7 @@ interface IQuestionState {
     number: number;
     question?: string;
     answered: boolean;
+    jar: CookieJar;
 }
 
 export class Question extends React.Component<
@@ -36,6 +38,7 @@ export class Question extends React.Component<
         super(props);
         this.state = {
             answered: false,
+            jar: rp.jar(),
             number: 0,
         };
         this.getQuestion = this.getQuestion.bind(this);
@@ -133,6 +136,7 @@ export class Question extends React.Component<
 
     private getQuestion() {
         rp({
+            jar: this.state.jar,
             json: true,
             uri: `https://api.twentyq.com/question/${this.state.number + 1}`,
         })
@@ -143,11 +147,11 @@ export class Question extends React.Component<
                         number: this.state.number + 1,
                         question: questionResponse.question,
                     });
-                } else if (questionResponse.classifications) {
+                } else if (questionResponse.classification) {
                     this.props.history.push({
                         pathname: '/overview',
-                        search: `?classifications=${btoa(
-                            JSON.stringify(questionResponse.classifications),
+                        search: `?classification=${btoa(
+                            JSON.stringify(questionResponse.classification),
                         )}`,
                     });
                 }
@@ -163,11 +167,11 @@ export class Question extends React.Component<
             this.setState({ answered: true });
             rp({
                 body: questionAnswer,
+                jar: this.state.jar,
                 json: true,
                 method: 'PUT',
                 uri: `https://api.twentyq.com/answer/${this.state.number}`,
-            });
-            this.getQuestion();
+            }).then(() => this.getQuestion());
         };
     }
 
@@ -177,21 +181,24 @@ export class Question extends React.Component<
                 question: undefined,
             });
             rp({
+                jar: this.state.jar,
                 json: true,
                 method: 'DELETE',
                 uri: `https://api.twentyq.com/answer/${this.state.number - 1}`,
-            });
-            rp({
-                json: true,
-                uri: `https://api.twentyq.com/question/${this.state.number -
-                    1}`,
-            }).then((questionResponse: IQuestionResponse) => {
-                this.setState({
-                    answered: false,
-                    number: this.state.number - 1,
-                    question: questionResponse.question,
-                });
-            });
+            }).then(() =>
+                rp({
+                    jar: this.state.jar,
+                    json: true,
+                    uri: `https://api.twentyq.com/question/${this.state.number -
+                        1}`,
+                }).then((questionResponse: IQuestionResponse) => {
+                    this.setState({
+                        answered: false,
+                        number: this.state.number - 1,
+                        question: questionResponse.question,
+                    });
+                }),
+            );
         } else {
             this.props.history.goBack();
         }
