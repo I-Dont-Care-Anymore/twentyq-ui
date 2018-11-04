@@ -133,7 +133,7 @@ export class Question extends React.Component<
     private getQuestion() {
         rp({
             json: true,
-            uri: `http://api.twentyq.com/question/${this.state.number + 1}`,
+            uri: `api.twentyq.com/question/${this.state.number + 1}`,
         }).then((questionResponse: IQuestionResponse) => {
             this.setState({
                 answered: false,
