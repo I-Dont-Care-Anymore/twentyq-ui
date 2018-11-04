@@ -133,7 +133,6 @@ export class Question extends React.Component<
     private getQuestion() {
         fetch(`https://api.twentyq.com/question/${this.state.number + 1}`, {
             credentials: 'include',
-            mode: 'cors',
         }).then(res =>
             res.json().then((questionResponse: IQuestionResponse) => {
                 if (questionResponse.question) {
@@ -152,7 +151,6 @@ export class Question extends React.Component<
                 }
             }),
         );
-        // .catch(reason => alert(reason));
     }
 
     private putAnswer(answer: string) {

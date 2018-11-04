@@ -6,9 +6,9 @@ import './App.css';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { About } from './About';
-import { Classification } from './Classification';
 import { Explain } from './Explain';
 import { LandingPage } from './LandingPage';
+import { Overview } from './Overview';
 import { Question } from './Question';
 
 export class App extends React.Component {
@@ -20,7 +20,7 @@ export class App extends React.Component {
                     <Route path="/about" component={About} />
                     <Route path="/explain" component={Explain} />
                     <Route path="/question" component={Question} />
-                    <Route path="/classification" component={Classification} />
+                    <Route path="/overview" component={Overview} />
                 </div>
             </Router>
         );
