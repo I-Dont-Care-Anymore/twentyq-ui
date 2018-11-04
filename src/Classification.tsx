@@ -15,7 +15,7 @@ export class Classification extends React.Component<
         let classification = searchParams.get('classification');
         classification = classification === null ? '' : classification;
         this.state = {
-            classification: JSON.parse(atob(classification)),
+            classification: JSON.parse(classification),
         };
     }
 

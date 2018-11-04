@@ -145,8 +145,8 @@ export class Question extends React.Component<
                 } else if (questionResponse.classification) {
                     this.props.history.push({
                         pathname: '/overview',
-                        search: `?classification=${btoa(
-                            JSON.stringify(questionResponse.classification),
+                        search: `?classification=${JSON.stringify(
+                            questionResponse.classification,
                         )}`,
                     });
                 }
