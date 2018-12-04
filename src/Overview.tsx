@@ -26,7 +26,7 @@ export class Overview extends React.Component<
     }
 
     public componentDidMount() {
-        fetch(`https://api.twentyq.com/naics/${this.state.classification}`, {
+        fetch(`https://twentyq-api.herokuapp.com/naics/${this.state.classification}`, {
             credentials: 'include',
         })
             .then(res => res.json())

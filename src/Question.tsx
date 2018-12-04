@@ -159,7 +159,7 @@ export class Question extends React.Component<
                 answer,
             };
             this.setState({ answered: true });
-            fetch(`https://api.twentyq.com/answer/${this.state.number}`, {
+            fetch(`https://twentyq-api.herokuapp.com/answer/${this.state.number}`, {
                 body: JSON.stringify(questionAnswer),
                 credentials: 'include',
                 headers: {
@@ -175,12 +175,12 @@ export class Question extends React.Component<
             this.setState({
                 question: undefined,
             });
-            fetch(`https://api.twentyq.com/answer/${this.state.number - 1}`, {
+            fetch(`https://twentyq-api.herokuapp.com/answer/${this.state.number - 1}`, {
                 credentials: 'include',
                 method: 'DELETE',
             }).then(() =>
                 fetch(
-                    `https://api.twentyq.com/question/${this.state.number - 1}`,
+                    `https://twentyq-api.herokuapp.com/question/${this.state.number - 1}`,
                     {
                         credentials: 'include',
                     },
