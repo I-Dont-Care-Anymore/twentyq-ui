@@ -131,7 +131,7 @@ export class Question extends React.Component<
     }
 
     private getQuestion() {
-        fetch(`https://api.twentyq.com/question/${this.state.number + 1}`, {
+        fetch(`https://twentyq-api.herokuapp.com/question/${this.state.number + 1}`, {
             credentials: 'include',
         }).then(res =>
             res.json().then((questionResponse: IQuestionResponse) => {
